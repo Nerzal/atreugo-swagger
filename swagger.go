@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Nerzal/atreugo-swagger/assets"
 	"github.com/savsgio/atreugo/v10"
 	"github.com/swaggo/swag"
 	"github.com/valyala/fasthttp"
@@ -63,27 +64,27 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 			doc, _ := swag.ReadDoc()
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
 		case "favicon-16x16.png":
-			return ctx.RawResponseBytes(FileFavicon16x16Png, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileFavicon16x16Png, fasthttp.StatusOK)
 		case "favicon-32x32.png":
-			return ctx.RawResponseBytes(FileFavicon32x32Png, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileFavicon32x32Png, fasthttp.StatusOK)
 		case "oauth2-redirect.html":
-			return ctx.RawResponseBytes(FileOauth2RedirectHTML, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileOauth2RedirectHTML, fasthttp.StatusOK)
 		case "swagger-ui-bundle.js":
-			return ctx.RawResponseBytes(FileSwaggerUIBundleJs, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIBundleJs, fasthttp.StatusOK)
 		case "swagger-ui-bundle.js.map":
-			return ctx.RawResponseBytes(FileSwaggerUIBundleJsMap, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIBundleJsMap, fasthttp.StatusOK)
 		case "swagger-ui-standalone-preset.js":
-			return ctx.RawResponseBytes(FileSwaggerUIStandalonePresetJs, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIStandalonePresetJs, fasthttp.StatusOK)
 		case "swagger-ui-standalone-preset.js.map":
-			return ctx.RawResponseBytes(FileSwaggerUIStandalonePresetJsMap, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIStandalonePresetJsMap, fasthttp.StatusOK)
 		case "swagger-ui.css":
-			return ctx.RawResponseBytes(FileSwaggerUICSS, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUICSS, fasthttp.StatusOK)
 		case "swagger-ui.css.map":
-			return ctx.RawResponseBytes(FileSwaggerUICSSMap, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUICSSMap, fasthttp.StatusOK)
 		case "swagger-ui.js":
-			return ctx.RawResponseBytes(FileSwaggerUIJs, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIJs, fasthttp.StatusOK)
 		case "swagger-ui.js.map":
-			return ctx.RawResponseBytes(FileSwaggerUIJsMap, fasthttp.StatusOK)
+			return ctx.RawResponseBytes(assets.FileSwaggerUIJsMap, fasthttp.StatusOK)
 		}
 
 		return ctx.TextResponse("404 page not found", fasthttp.StatusNotFound)
