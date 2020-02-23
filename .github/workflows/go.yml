@@ -49,18 +49,18 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      # Publish benchmarks for the master branch only
-      - name: Store Benchmark Result
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: rhysd/github-action-benchmark@v1
-        with:
-          # What benchmark tool the output.txt came from
-          tool: "go"
-          # Where the output from the benchmark tool is stored
-          output-file-path: test.log
-          # Push and deploy GitHub pages branch automatically
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
+      # # Publish benchmarks for the master branch only
+      # - name: Store Benchmark Result
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      #   uses: rhysd/github-action-benchmark@v1
+      #   with:
+      #     # What benchmark tool the output.txt came from
+      #     tool: "go"
+      #     # Where the output from the benchmark tool is stored
+      #     output-file-path: test.log
+      #     # Push and deploy GitHub pages branch automatically
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     auto-push: true
 
       # Updating go repord card for master branch only
       - name: GoReportCard
