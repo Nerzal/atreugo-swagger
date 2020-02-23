@@ -2,12 +2,12 @@ package atreugoswagger
 
 import (
 	"html/template"
-	"net/http"
 	"regexp"
 
-	"github.com/labstack/echo/v4"
+	"github.com/savsgio/atreugo/v10"
 	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/swag"
+	"github.com/valyala/fasthttp"
 )
 
 // Config stores atreugoswagger configuration variables.
@@ -24,10 +24,10 @@ func URL(url string) func(c *Config) {
 }
 
 // WrapHandler wraps swaggerFiles.Handler and returns echo.HandlerFunc
-var WrapHandler = EchoWrapHandler()
+var WrapHandler = AtreugoWrapHandler()
 
-// EchoWrapHandler wraps `http.Handler` into `echo.HandlerFunc`.
-func EchoWrapHandler(confs ...func(c *Config)) echo.HandlerFunc {
+// EchoWrapHandler wraps `http.Handler` into `atreugo.Middleware`.
+func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
 
 	handler := swaggerFiles.Handler
 
@@ -49,26 +49,27 @@ func EchoWrapHandler(confs ...func(c *Config)) echo.HandlerFunc {
 
 	var re = regexp.MustCompile(`(.*)(index\.html|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[\?|.]*`)
 
-	return func(c echo.Context) error {
+	return func(ctx atreugo.RequestCtx) error {
 		var matches []string
-		if matches = re.FindStringSubmatch(c.Request().RequestURI); len(matches) != 3 {
 
-			return c.String(http.StatusNotFound, "404 page not found")
+		if matches = re.FindStringSubmatch(string(ctx.RequestURI())); len(matches) != 3 {
+			return ctx.TextResponse("404 page not found", fasthttp.StatusNotFound)
 		}
+
 		path := matches[2]
 		prefix := matches[1]
 		handler.Prefix = prefix
 
 		switch path {
 		case "index.html":
-
-			index.Execute(c.Response().Writer, config)
+			return index.Execute(ctx.Response.BodyWriter(), config)
 		case "doc.json":
-			doc, _ := swag.ReadDoc()
-			c.Response().Write([]byte(doc))
-		default:
-			handler.ServeHTTP(c.Response().Writer, c.Request())
+			doc, err := swag.ReadDoc()
+			if err != nil {
+				return err
+			}
 
+			return ctx.TextResponse(doc, fasthttp.StatusOK)
 		}
 
 		return nil

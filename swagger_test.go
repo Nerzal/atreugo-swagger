@@ -1,38 +1,46 @@
 package atreugoswagger
 
 import (
-	"net/http/httptest"
 	"testing"
 
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/assert"
-	_ "github.com/swaggo/gin-swagger/example/basic/docs"
+	_ "github.com/Nerzal/atreugo-swagger/example/basic/docs"
+	"github.com/savsgio/atreugo/v10"
+	"github.com/valyala/fasthttp"
 )
 
 func TestWrapHandler(t *testing.T) {
 
-	router := echo.New()
+	config := &atreugo.Config{
+		Addr: "0.0.0.0:1337",
+	}
 
-	router.GET("/*", WrapHandler)
+	a := atreugo.New(config)
 
-	w1 := performRequest("GET", "/index.html", router)
-	assert.Equal(t, 200, w1.Code)
+	a.GET("/*", WrapHandler)
 
-	w2 := performRequest("GET", "/doc.json", router)
-	assert.Equal(t, 200, w2.Code)
+	go a.ListenAndServe()
 
-	w3 := performRequest("GET", "/favicon-16x16.png", router)
-	assert.Equal(t, 200, w3.Code)
+	t.Run("Get Index.html", func(t *testing.T) {
+		status, _, err := fasthttp.Get(nil, "http://localhost:1337/index.html")
+		if err != nil {
+			t.Error("failed to call hello: ", err)
+		}
 
-	w4 := performRequest("GET", "/notfound", router)
-	assert.Equal(t, 404, w4.Code)
+		if status != 200 {
+			t.Error("received wrong statuscode")
+		}
+	})
 
-}
+	// w1 := performRequest("GET", "/index.html", a)
+	// assert.Equal(t, 200, w1.Code)
 
-func performRequest(method, target string, e *echo.Echo) *httptest.ResponseRecorder {
-	r := httptest.NewRequest(method, target, nil)
-	w := httptest.NewRecorder()
+	// w2 := performRequest("GET", "/doc.json", a)
+	// assert.Equal(t, 200, w2.Code)
 
-	e.ServeHTTP(w, r)
-	return w
+	// w3 := performRequest("GET", "/favicon-16x16.png", a)
+	// assert.Equal(t, 200, w3.Code)
+
+	// w4 := performRequest("GET", "/notfound", a)
+	// assert.Equal(t, 404, w4.Code)
+
 }
