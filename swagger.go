@@ -54,11 +54,30 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		}
 
 		path := matches[2]
-		prefix := matches[1]
+		// prefix := matches[1]
+
+		if strings.Contains(path, "png") {
+			ctx.Response.Header.Add("Content-Type", "image/png")
+		}
+
+		if strings.Contains(path, "jpg") {
+			ctx.Response.Header.Add("Content-Type", "image/jpeg")
+		}
+
+		if strings.Contains(path, "html") {
+			ctx.Response.Header.Add("Content-Type", "text/html")
+		}
+
+		if strings.Contains(path, "css") {
+			ctx.Response.Header.Add("Content-Type", "text/css")
+		}
+
+		if strings.Contains(path, "js") {
+			ctx.Response.Header.Add("Content-Type", "text/javascript")
+		}
 
 		switch path {
 		case "index.html":
-			ctx.Response.Header.Add("Content-Type: text/html; charset=utf-8", "text/html")
 			return index.Execute(ctx.Response.BodyWriter(), config)
 		case "doc.json":
 			doc, err := swag.ReadDoc()
@@ -67,27 +86,31 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 			}
 
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
-		default:
-			mimeType := "text/plain"
-
-			if strings.Contains(path, ".css") {
-				mimeType = "text/css"
-			}
-
-			if strings.Contains(path, ".js") {
-				mimeType = "text/javascript"
-			}
-
-			if strings.Contains(path, ".png") {
-				mimeType = "image/png"
-			}
-
-			if strings.Contains(path, ".jpg") {
-				mimeType = "image/jpeg"
-			}
-
-			return ctx.FileResponse(path, "./"+path, mimeType)
+		case "favicon-16x16.png":
+			return ctx.RawResponseBytes(FileFavicon16x16Png, fasthttp.StatusOK)
+		case "favicon-32x32.png":
+			return ctx.RawResponseBytes(FileFavicon32x32Png, fasthttp.StatusOK)
+		case "oauth2-redirect.html":
+			return ctx.RawResponseBytes(FileOauth2RedirectHTML, fasthttp.StatusOK)
+		case "swagger-ui-bundle.js":
+			return ctx.RawResponseBytes(FileSwaggerUIBundleJs, fasthttp.StatusOK)
+		case "swagger-ui-bundle.js.map":
+			return ctx.RawResponseBytes(FileSwaggerUIBundleJsMap, fasthttp.StatusOK)
+		case "swagger-ui-standalone-preset.js":
+			return ctx.RawResponseBytes(FileSwaggerUIStandalonePresetJs, fasthttp.StatusOK)
+		case "swagger-ui-standalone-preset.js.map":
+			return ctx.RawResponseBytes(FileSwaggerUIStandalonePresetJsMap, fasthttp.StatusOK)
+		case "swagger-ui.css":
+			return ctx.RawResponseBytes(FileSwaggerUICSS, fasthttp.StatusOK)
+		case "swagger-ui.css.map":
+			return ctx.RawResponseBytes(FileSwaggerUICSSMap, fasthttp.StatusOK)
+		case "swagger-ui.js":
+			return ctx.RawResponseBytes(FileSwaggerUIJs, fasthttp.StatusOK)
+		case "swagger-ui.js.map":
+			return ctx.RawResponseBytes(FileSwaggerUIJsMap, fasthttp.StatusOK)
 		}
+
+		return ctx.TextResponse("404 page not found", fasthttp.StatusNotFound)
 	}
 }
 
