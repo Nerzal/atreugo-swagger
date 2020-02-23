@@ -24,9 +24,6 @@ func URL(url string) func(c *Config) {
 	}
 }
 
-// WrapHandler serves swagger files
-var WrapHandler = AtreugoWrapHandler()
-
 // EchoWrapHandler wraps `http.Handler` into `atreugo.Middleware`.
 func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
 	config := &Config{

@@ -31,5 +31,8 @@ func main() {
 	a.GET("/docs/*doc", atreugoswagger.AtreugoWrapHandler())
 
 	// Start the server
-	a.ListenAndServe()
+	err := a.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
 }
