@@ -1,5 +1,5 @@
 # atreugo-swagger
-[![codebeat badge](https://codebeat.co/badges/c699bc56-aa5f-4cf5-893f-5cf564391b94)](https://codebeat.co/projects/github-com-nerzal-gocloak-master)
+[![codebeat badge](https://codebeat.co/badges/103ada91-026a-4027-b450-1a0ccbf8ce9a)](https://codebeat.co/projects/github-com-nerzal-atreugo-swagger-master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Nerzal/atreugo-swagger)](https://goreportcard.com/report/github.com/Nerzal/gocloak)
 [![Go Doc](https://godoc.org/github.com/Nerzal/atreugo-swagger?status.svg)](https://godoc.org/github.com/Nerzal/gocloak)
 [![Build Status](https://github.com/Nerzal/atreugo-swagger/workflows/Tests/badge.svg)](https://github.com/Nerzal/gocloak/actions?query=branch%3Amaster+event%3Apush)
