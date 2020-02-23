@@ -1,7 +1,10 @@
 run:
   skip-dirs:
     - (^|/)testdata($|/)
+    - (^|/)assets($|/)
   skip-dirs-use-default: false
+  skip-files:
+    - (^|/)*_test.go($|/)
 
 linters:
   enable:
