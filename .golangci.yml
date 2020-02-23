@@ -29,7 +29,6 @@ linters-settings:
     min-complexity: 17
   gofmt:
     simplify: true
-
 issues:
   exclude-rules:
     - path: _test\.go
