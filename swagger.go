@@ -54,26 +54,7 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		}
 
 		path := matches[2]
-
-		if strings.Contains(path, "png") {
-			ctx.Response.Header.Add("Content-Type", "image/png")
-		}
-
-		if strings.Contains(path, "jpg") {
-			ctx.Response.Header.Add("Content-Type", "image/jpeg")
-		}
-
-		if strings.Contains(path, "html") {
-			ctx.Response.Header.Add("Content-Type", "text/html")
-		}
-
-		if strings.Contains(path, "css") {
-			ctx.Response.Header.Add("Content-Type", "text/css")
-		}
-
-		if strings.Contains(path, "js") {
-			ctx.Response.Header.Add("Content-Type", "text/javascript")
-		}
+		setContentType(ctx, path)
 
 		switch path {
 		case "index.html":
@@ -106,5 +87,27 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		}
 
 		return ctx.TextResponse("404 page not found", fasthttp.StatusNotFound)
+	}
+}
+
+func setContentType(ctx *atreugo.RequestCtx, path string) {
+	if strings.Contains(path, "png") {
+		ctx.Response.Header.Add("Content-Type", "image/png")
+	}
+
+	if strings.Contains(path, "jpg") {
+		ctx.Response.Header.Add("Content-Type", "image/jpeg")
+	}
+
+	if strings.Contains(path, "html") {
+		ctx.Response.Header.Add("Content-Type", "text/html")
+	}
+
+	if strings.Contains(path, "css") {
+		ctx.Response.Header.Add("Content-Type", "text/css")
+	}
+
+	if strings.Contains(path, "js") {
+		ctx.Response.Header.Add("Content-Type", "text/javascript")
 	}
 }
