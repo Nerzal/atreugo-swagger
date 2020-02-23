@@ -10,7 +10,6 @@ import (
 )
 
 func TestWrapHandler(t *testing.T) {
-
 	config := &atreugo.Config{
 		Addr: "0.0.0.0:1337",
 	}
@@ -18,6 +17,9 @@ func TestWrapHandler(t *testing.T) {
 	a := atreugo.New(config)
 
 	a.GET("/docs/*doc", AtreugoWrapHandler())
+	a.GET("/api/v1/hello", func(ctx *atreugo.RequestCtx) error {
+		return ctx.TextResponse("hello", fasthttp.StatusOK)
+	})
 
 	go a.ListenAndServe()
 
@@ -27,7 +29,7 @@ func TestWrapHandler(t *testing.T) {
 			t.Error("failed to call hello: ", err)
 		}
 
-		if status != 200 {
+		if status != fasthttp.StatusOK {
 			t.Error("received wrong statuscode")
 		}
 
@@ -43,7 +45,7 @@ func TestWrapHandler(t *testing.T) {
 			t.Error("failed to call hello: ", err)
 		}
 
-		if status != 200 {
+		if status != fasthttp.StatusOK {
 			t.Error("received wrong statuscode")
 		}
 
@@ -53,13 +55,29 @@ func TestWrapHandler(t *testing.T) {
 		}
 	})
 
-	// w2 := performRequest("GET", "/doc.json", a)
-	// assert.Equal(t, 200, w2.Code)
+	t.Run("NotFound", func(t *testing.T) {
+		status, _, err := fasthttp.Get(nil, "http://localhost:1337/notfound")
+		if err != nil {
+			t.Error("failed to call hello: ", err)
+		}
 
-	// w3 := performRequest("GET", "/favicon-16x16.png", a)
-	// assert.Equal(t, 200, w3.Code)
+		if status != fasthttp.StatusNotFound {
+			t.Error("received wrong statuscode")
+		}
+	})
 
-	// w4 := performRequest("GET", "/notfound", a)
-	// assert.Equal(t, 404, w4.Code)
+	t.Run("Get Hello", func(t *testing.T) {
+		status, response, err := fasthttp.Get(nil, "http://localhost:1337/api/v1/hello")
+		if err != nil {
+			t.Error("failed to call hello: ", err)
+		}
 
+		if status != fasthttp.StatusOK {
+			t.Error("received wrong statuscode")
+		}
+
+		if string(response) != "hello" {
+			t.Errorf("received wrong response: %s", string(response))
+		}
+	})
 }
