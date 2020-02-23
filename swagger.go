@@ -3,9 +3,9 @@ package atreugoswagger
 import (
 	"html/template"
 	"regexp"
+	"strings"
 
 	"github.com/savsgio/atreugo/v10"
-	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/swag"
 	"github.com/valyala/fasthttp"
 )
@@ -23,14 +23,11 @@ func URL(url string) func(c *Config) {
 	}
 }
 
-// WrapHandler wraps swaggerFiles.Handler and returns echo.HandlerFunc
+// WrapHandler serves swagger files
 var WrapHandler = AtreugoWrapHandler()
 
 // EchoWrapHandler wraps `http.Handler` into `atreugo.Middleware`.
 func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
-
-	handler := swaggerFiles.Handler
-
 	config := &Config{
 		URL: "doc.json",
 	}
@@ -58,10 +55,10 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 
 		path := matches[2]
 		prefix := matches[1]
-		handler.Prefix = prefix
 
 		switch path {
 		case "index.html":
+			ctx.Response.Header.Add("Content-Type: text/html; charset=utf-8", "text/html")
 			return index.Execute(ctx.Response.BodyWriter(), config)
 		case "doc.json":
 			doc, err := swag.ReadDoc()
@@ -70,9 +67,27 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 			}
 
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
-		}
+		default:
+			mimeType := "text/plain"
 
-		return nil
+			if strings.Contains(path, ".css") {
+				mimeType = "text/css"
+			}
+
+			if strings.Contains(path, ".js") {
+				mimeType = "text/javascript"
+			}
+
+			if strings.Contains(path, ".png") {
+				mimeType = "image/png"
+			}
+
+			if strings.Contains(path, ".jpg") {
+				mimeType = "image/jpeg"
+			}
+
+			return ctx.FileResponse(path, "./"+path, mimeType)
+		}
 	}
 }
 

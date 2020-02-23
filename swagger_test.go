@@ -1,6 +1,7 @@
 package atreugoswagger
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/savsgio/atreugo/v10"
@@ -16,12 +17,12 @@ func TestWrapHandler(t *testing.T) {
 
 	a := atreugo.New(config)
 
-	a.GET("/*", WrapHandler)
+	a.GET("/docs/*doc", AtreugoWrapHandler())
 
 	go a.ListenAndServe()
 
 	t.Run("Get Index.html", func(t *testing.T) {
-		status, _, err := fasthttp.Get(nil, "http://localhost:1337/index.html")
+		status, result, err := fasthttp.Get(nil, "http://localhost:1337/docs/index.html")
 		if err != nil {
 			t.Error("failed to call hello: ", err)
 		}
@@ -29,10 +30,28 @@ func TestWrapHandler(t *testing.T) {
 		if status != 200 {
 			t.Error("received wrong statuscode")
 		}
+
+		stringResult := string(result)
+		if !strings.Contains(stringResult, "<title>Swagger UI</title>") {
+			t.Error("Could not find swagger title")
+		}
 	})
 
-	// w1 := performRequest("GET", "/index.html", a)
-	// assert.Equal(t, 200, w1.Code)
+	t.Run("Get doc.json", func(t *testing.T) {
+		status, result, err := fasthttp.Get(nil, "http://localhost:1337/docs/doc.json")
+		if err != nil {
+			t.Error("failed to call hello: ", err)
+		}
+
+		if status != 200 {
+			t.Error("received wrong statuscode")
+		}
+
+		stringResult := string(result)
+		if !strings.Contains(stringResult, `"title": "Swagger Example API",`) {
+			t.Error("Could not find swagger title")
+		}
+	})
 
 	// w2 := performRequest("GET", "/doc.json", a)
 	// assert.Equal(t, 200, w2.Code)
