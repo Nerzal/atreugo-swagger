@@ -3,8 +3,8 @@ package atreugoswagger
 import (
 	"testing"
 
-	_ "github.com/Nerzal/atreugo-swagger/example/basic/docs"
 	"github.com/savsgio/atreugo/v10"
+	_ "github.com/swaggo/gin-swagger/example/basic/docs"
 	"github.com/valyala/fasthttp"
 )
 
