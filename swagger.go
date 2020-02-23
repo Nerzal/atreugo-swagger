@@ -11,9 +11,11 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+const fileRegex = `(.*)(index\.html|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[\?|.]*`
+
 // Config stores atreugoswagger configuration variables.
 type Config struct {
-	//The url pointing to API definition (normally swagger.json or swagger.yaml). Default is `doc.json`.
+	// The url pointing to API definition (normally swagger.json or swagger.yaml). Default is `doc.json`.
 	URL string
 }
 
@@ -24,7 +26,7 @@ func URL(url string) func(c *Config) {
 	}
 }
 
-// EchoWrapHandler wraps `http.Handler` into `atreugo.Middleware`.
+// AtreugoWrapHandler is a handler which serves swagger files
 func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
 	config := &Config{
 		URL: "doc.json",
@@ -42,7 +44,7 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		Host string
 	}
 
-	var re = regexp.MustCompile(`(.*)(index\.html|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[\?|.]*`)
+	var re = regexp.MustCompile(fileRegex)
 
 	return func(ctx *atreugo.RequestCtx) error {
 		var matches []string
