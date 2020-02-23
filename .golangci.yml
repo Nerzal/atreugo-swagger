@@ -76,6 +76,7 @@ run:
     - test
     - configs
     - cmd
+    - assets
   tests: false
 issues:
   exclude-rules:
