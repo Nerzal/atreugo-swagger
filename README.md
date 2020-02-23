@@ -1,4 +1,12 @@
 # atreugo-swagger
+[![codebeat badge](https://codebeat.co/badges/c699bc56-aa5f-4cf5-893f-5cf564391b94)](https://codebeat.co/projects/github-com-nerzal-gocloak-master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Nerzal/atreugo-swagger)](https://goreportcard.com/report/github.com/Nerzal/gocloak)
+[![Go Doc](https://godoc.org/github.com/Nerzal/atreugo-swagger?status.svg)](https://godoc.org/github.com/Nerzal/gocloak)
+[![Build Status](https://github.com/Nerzal/atreugo-swagger/workflows/Tests/badge.svg)](https://github.com/Nerzal/gocloak/actions?query=branch%3Amaster+event%3Apush)
+[![GitHub release](https://img.shields.io/github/tag/Nerzal/atreugo-swagger.svg)](https://GitHub.com/Nerzal/gocloak/releases/)
+[![codecov](https://codecov.io/gh/Nerzal/atreugo-swagger/branch/master/graph/badge.svg)](https://codecov.io/gh/Nerzal/gocloak)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNerzal%2Fatreugo-swagger.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNerzal%2Fgocloak?ref=badge_shield)
+
 atreugo handler that serves swagger files. 
 
 Works with [swaggo](https://github.com/swaggo/swag)
