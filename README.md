@@ -1,11 +1,11 @@
 # atreugo-swagger
 [![codebeat badge](https://codebeat.co/badges/103ada91-026a-4027-b450-1a0ccbf8ce9a)](https://codebeat.co/projects/github-com-nerzal-atreugo-swagger-master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Nerzal/atreugo-swagger)](https://goreportcard.com/report/github.com/Nerzal/atreugo-swagger)
-[![Go Doc](https://godoc.org/github.com/Nerzal/atreugo-swagger?status.svg)](https://godoc.org/github.com/Nerzal/gocloak)
-[![Build Status](https://github.com/Nerzal/atreugo-swagger/workflows/Tests/badge.svg)](https://github.com/Nerzal/gocloak/actions?query=branch%3Amaster+event%3Apush)
-[![GitHub release](https://img.shields.io/github/tag/Nerzal/atreugo-swagger.svg)](https://GitHub.com/Nerzal/gocloak/releases/)
-[![codecov](https://codecov.io/gh/Nerzal/atreugo-swagger/branch/master/graph/badge.svg)](https://codecov.io/gh/Nerzal/gocloak)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNerzal%2Fatreugo-swagger.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNerzal%2Fgocloak?ref=badge_shield)
+[![Go Doc](https://godoc.org/github.com/Nerzal/atreugo-swagger?status.svg)](https://godoc.org/github.com/Nerzal/atreugo-swagger)
+[![Build Status](https://github.com/Nerzal/atreugo-swagger/workflows/Tests/badge.svg)](https://github.com/Nerzal/atreugo-swagger/actions?query=branch%3Amaster+event%3Apush)
+[![GitHub release](https://img.shields.io/github/tag/Nerzal/atreugo-swagger.svg)](https://GitHub.com/Nerzal/atreugo-swagger/releases/)
+[![codecov](https://codecov.io/gh/Nerzal/atreugo-swagger/branch/master/graph/badge.svg)](https://codecov.io/gh/Nerzal/atreugo-swagger)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNerzal%2Fatreugo-swagger.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNerzal%2Fatreugo-swagger?ref=badge_shield)
 
 atreugo handler that serves swagger files. 
 
