@@ -11,12 +11,14 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-const fileRegex = `(.*)(index\.html|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[\?|.]*`
+const fileRegex = `(.*)(redoc\.html|index\.html|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[\?|.]*`
 
 // Config stores atreugoswagger configuration variables.
 type Config struct {
 	// The url pointing to API definition (normally swagger.json or swagger.yaml). Default is `doc.json`.
 	URL string
+	// Title is used for the redoc documentation
+	Title string
 }
 
 // URL presents the url pointing to API definition (normally swagger.json or swagger.yaml).
@@ -59,6 +61,8 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		switch path {
 		case "index.html":
 			return index.Execute(ctx.Response.BodyWriter(), config)
+		case "redoc.html":
+			return ctx.HTTPResponse(assets.RedocDocumentation, fasthttp.StatusOK)
 		case "doc.json":
 			doc, _ := swag.ReadDoc()
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
