@@ -28,7 +28,7 @@ func main() {
 	a := atreugo.New(config)
 
 	// This will server all swagger files under the /docs/* path.
-	a.GET("/docs/*doc", atreugoswagger.AtreugoWrapHandler())
+	a.GET("/docs/*doc", atreugoswagger.AtreugoWrapHandler(atreugoswagger.Title("Test Title")))
 
 	// Start the server
 	err := a.ListenAndServe()

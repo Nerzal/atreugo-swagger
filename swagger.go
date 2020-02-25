@@ -21,6 +21,13 @@ type Config struct {
 	Title string
 }
 
+// Title presents the title of the tab
+func Title(title string) func(c *Config) {
+	return func(c *Config) {
+		c.Title = title
+	}
+}
+
 // URL presents the url pointing to API definition (normally swagger.json or swagger.yaml).
 func URL(url string) func(c *Config) {
 	return func(c *Config) {
@@ -62,7 +69,8 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		case "index.html":
 			return index.Execute(ctx.Response.BodyWriter(), config)
 		case "redoc.html":
-			return ctx.HTTPResponse(assets.RedocDocumentation, fasthttp.StatusOK)
+			redocHTML := strings.Replace(assets.RedocDocumentation, "{title}", config.Title, 1)
+			return ctx.HTTPResponse(redocHTML, fasthttp.StatusOK)
 		case "doc.json":
 			doc, _ := swag.ReadDoc()
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
