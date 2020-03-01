@@ -13,6 +13,10 @@ Works with [swaggo](https://github.com/swaggo/swag)
 
 swagger files are from: [swaggofiles](https://github.com/swaggo/files)
 
+## Paths
+Serves swagger documentation under index.html
+Serves redoc documentation under redoc.html
+
 ## Example
 
 
@@ -46,9 +50,14 @@ func main() {
 
 	a := atreugo.New(config)
 
-	a.GET("/docs/*doc", atreugoswagger.AtreugoWrapHandler())
+	// This will server all swagger files under the /docs/* path.
+	a.GET("/docs/*doc", atreugoswagger.AtreugoWrapHandler(atreugoswagger.Title("Test Title")))
 
-	a.ListenAndServe()
+	// Start the server
+	err := a.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
 }
 
 ```
