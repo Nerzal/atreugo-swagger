@@ -15,6 +15,7 @@ swagger files are from: [swaggofiles](https://github.com/swaggo/files)
 
 ## Paths
 Serves swagger documentation under index.html
+
 Serves redoc documentation under redoc.html
 
 ## Example
