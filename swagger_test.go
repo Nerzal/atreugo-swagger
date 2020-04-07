@@ -4,19 +4,19 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/savsgio/atreugo/v10"
+	"github.com/savsgio/atreugo/v11"
 	_ "github.com/swaggo/gin-swagger/example/basic/docs"
 	"github.com/valyala/fasthttp"
 )
 
 func TestWrapHandler(t *testing.T) {
-	config := &atreugo.Config{
+	config := atreugo.Config{
 		Addr: "0.0.0.0:1337",
 	}
 
 	a := atreugo.New(config)
 
-	a.GET("/docs/*doc", AtreugoWrapHandler())
+	a.GET("/docs/{doc:*}", AtreugoWrapHandler())
 	a.GET("/api/v1/hello", func(ctx *atreugo.RequestCtx) error {
 		return ctx.TextResponse("hello", fasthttp.StatusOK)
 	})

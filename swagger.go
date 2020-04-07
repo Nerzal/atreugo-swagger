@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/Nerzal/atreugo-swagger/assets"
-	"github.com/savsgio/atreugo/v10"
+	"github.com/savsgio/atreugo/v11"
 	"github.com/swaggo/swag"
 	"github.com/valyala/fasthttp"
 )
