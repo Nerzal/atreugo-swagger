@@ -1,4 +1,4 @@
-module github.com/Nerzal/atreugo-swagger/v2
+module github.com/Nerzal/atreugo-swagger/v3
 
 go 1.15
 
