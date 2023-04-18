@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Nerzal/atreugo-swagger/v3/assets"
+	"github.com/Nerzal/atreugo-swagger/v4/assets"
 	"github.com/savsgio/atreugo/v11"
 	"github.com/swaggo/swag/v2"
 	"github.com/valyala/fasthttp"
