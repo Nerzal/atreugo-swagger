@@ -48,7 +48,7 @@ func InstanceName(instanceName string) func(c *Config) {
 func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
 	config := &Config{
 		URL:          "doc.json",
-		InstanceName: "swagger",
+		InstanceName: swag.Name,
 	}
 
 	for _, c := range confs {
