@@ -19,6 +19,8 @@ type Config struct {
 	URL string
 	// Title is used for the redoc documentation
 	Title string
+	// InstanceName is used to name different swagger document instances. Defaults to 'swagger'.
+	InstanceName string
 }
 
 // Title presents the title of the tab
@@ -35,10 +37,18 @@ func URL(url string) func(c *Config) {
 	}
 }
 
+// InstanceName presents the name of the document.
+func InstanceName(instanceName string) func(c *Config) {
+	return func(c *Config) {
+		c.InstanceName = instanceName
+	}
+}
+
 // AtreugoWrapHandler is a handler which serves swagger files
 func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) error {
 	config := &Config{
-		URL: "doc.json",
+		URL:          "doc.json",
+		InstanceName: swag.Name,
 	}
 
 	for _, c := range confs {
@@ -53,7 +63,7 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 		Host string
 	}
 
-	var re = regexp.MustCompile(fileRegex)
+	re := regexp.MustCompile(fileRegex)
 
 	return func(ctx *atreugo.RequestCtx) error {
 		var matches []string
@@ -72,7 +82,7 @@ func AtreugoWrapHandler(confs ...func(c *Config)) func(ctx *atreugo.RequestCtx) 
 			redocHTML := strings.Replace(assets.RedocDocumentation, "{title}", config.Title, 1)
 			return ctx.HTTPResponse(redocHTML, fasthttp.StatusOK)
 		case "doc.json":
-			doc, _ := swag.ReadDoc()
+			doc, _ := swag.ReadDoc(config.InstanceName)
 			return ctx.TextResponse(doc, fasthttp.StatusOK)
 		case "favicon-16x16.png":
 			return ctx.RawResponseBytes(assets.FileFavicon16x16Png, fasthttp.StatusOK)
